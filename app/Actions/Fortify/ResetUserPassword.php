@@ -9,6 +9,8 @@ use Laravel\Fortify\Contracts\ResetsUserPasswords;
 
 class ResetUserPassword implements ResetsUserPasswords
 {
+
+    // use password validation rules
     use PasswordValidationRules;
 
     /**
