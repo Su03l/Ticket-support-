@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum CustomFieldType: string
 {
-    case Text = 'text';
+    case Text = 'text'; // text custom field
     case Textarea = 'textarea';
     case Number = 'number';
     case Date = 'date';
