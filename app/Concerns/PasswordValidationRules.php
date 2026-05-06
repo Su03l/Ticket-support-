@@ -7,11 +7,7 @@ use Illuminate\Validation\Rules\Password;
 
 trait PasswordValidationRules
 {
-    /**
-     * Get the validation rules used to validate passwords.
-     *
-     * @return array<int, ValidationRule|array<mixed>|string>
-     */
+    // rules for new password
     protected function passwordRules(): array
     {
         return ['required', 'string', Password::default(), 'confirmed'];
