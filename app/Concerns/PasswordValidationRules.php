@@ -13,11 +13,7 @@ trait PasswordValidationRules
         return ['required', 'string', Password::default(), 'confirmed'];
     }
 
-    /**
-     * Get the validation rules used to validate the current password.
-     *
-     * @return array<int, ValidationRule|array<mixed>|string>
-     */
+    // rules for current password
     protected function currentPasswordRules(): array
     {
         return ['required', 'string', 'current_password'];
