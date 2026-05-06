@@ -5,7 +5,7 @@ namespace App\Enums;
 enum ComplaintStatus: string
 {
     case New = 'new'; // new complaint
-    case UnderReview = 'under_review';
+    case UnderReview = 'under_review'; // complaint under review
     case WaitingCustomer = 'waiting_customer';
     case Escalated = 'escalated';
     case Resolved = 'resolved';
