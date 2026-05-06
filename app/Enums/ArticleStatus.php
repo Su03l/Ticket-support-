@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum ArticleStatus: string
 {
-    case Draft = 'draft';
-    case Published = 'published';
-    case Archived = 'archived';
+    case Draft = 'draft'; // not published yet
+    case Published = 'published'; // published 
+    case Archived = 'archived'; // archived 
 }
