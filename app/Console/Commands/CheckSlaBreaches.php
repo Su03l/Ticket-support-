@@ -13,6 +13,7 @@ class CheckSlaBreaches extends Command
     // command description
     protected $description = 'Check active SLA records and escalate breached items.';
 
+    // handle method
     public function handle(SlaTrackingService $slaTracking): int
     {
         $count = $slaTracking->checkBreaches();
