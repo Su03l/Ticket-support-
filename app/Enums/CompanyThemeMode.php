@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum CompanyThemeMode: string
 {
-    case Light = 'light';
-    case Dark = 'dark';
-    case System = 'system';
+    case Light = 'light'; // light theme mode
+    case Dark = 'dark'; // dark theme mode
+    case System = 'system'; // system theme mode
 }
