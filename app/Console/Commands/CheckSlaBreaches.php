@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 
 class CheckSlaBreaches extends Command
 {
+    // command signature 
     protected $signature = 'sla:check-breaches';
 
     protected $description = 'Check active SLA records and escalate breached items.';
