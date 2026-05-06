@@ -4,6 +4,6 @@ namespace App\Enums;
 
 enum BillingCycle: string
 {
-    case Monthly = 'monthly';
-    case Yearly = 'yearly';
+    case Monthly = 'monthly'; // monthly billing cycle
+    case Yearly = 'yearly'; // yearly billing cycle
 }
