@@ -10,6 +10,7 @@ class CheckSlaBreaches extends Command
     // command signature 
     protected $signature = 'sla:check-breaches';
 
+    // command description
     protected $description = 'Check active SLA records and escalate breached items.';
 
     public function handle(SlaTrackingService $slaTracking): int
