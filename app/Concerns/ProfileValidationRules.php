@@ -24,11 +24,7 @@ trait ProfileValidationRules
         return ['required', 'string', 'max:255'];
     }
 
-    /**
-     * Get the validation rules used to validate user emails.
-     *
-     * @return array<int, ValidationRule|array<mixed>|string>
-     */
+    // email validation rules
     protected function emailRules(?int $userId = null): array
     {
         return [
