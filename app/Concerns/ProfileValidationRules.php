@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Validation\Rule;
 
+// use trait for profile validation rules
 trait ProfileValidationRules
 {
     // profile validation rules
