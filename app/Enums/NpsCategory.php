@@ -6,7 +6,7 @@ enum NpsCategory: string
 {
     case Promoter = 'promoter'; // promoter category
     case Passive = 'passive'; // passive category
-    case Detractor = 'detractor';
+    case Detractor = 'detractor'; // detractor category
 
     public static function fromScore(int $score): self
     {
