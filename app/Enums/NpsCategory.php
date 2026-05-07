@@ -12,9 +12,9 @@ enum NpsCategory: string
     public static function fromScore(int $score): self
     {
         return match (true) {
-            $score >= 9 => self::Promoter,
-            $score >= 7 => self::Passive,
-            default => self::Detractor,
+            $score >= 9 => self::Promoter, // promoter category when score is 9 or 10
+            $score >= 7 => self::Passive, // passive category when score is 7 or 8
+            default => self::Detractor, // detractor category when score is 0 to 6
         };
     }
 }
