@@ -8,7 +8,7 @@ enum CustomFieldType: string
     case Textarea = 'textarea'; // textarea custom field
     case Email = 'email'; // email custom field
     case Phone = 'phone'; // phone custom field
-    case Number = 'number';
+    case Number = 'number'; // number custom field
     case Date = 'date';
     case Select = 'select';
     case MultiSelect = 'multi_select';
