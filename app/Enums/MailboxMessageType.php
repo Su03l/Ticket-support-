@@ -5,7 +5,7 @@ namespace App\Enums;
 enum MailboxMessageType: string
 {
     case System = 'system'; // system message type
-    case Ticket = 'ticket';
+    case Ticket = 'ticket'; // ticket message type
     case Complaint = 'complaint';
     case Inquiry = 'inquiry';
     case AdminNotice = 'admin_notice';
