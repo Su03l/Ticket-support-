@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum NpsCategory: string
 {
-    case Promoter = 'promoter';
+    case Promoter = 'promoter'; // promoter category
     case Passive = 'passive';
     case Detractor = 'detractor';
 
