@@ -6,7 +6,7 @@ enum MailboxMessageType: string
 {
     case System = 'system'; // system message type
     case Ticket = 'ticket'; // ticket message type
-    case Complaint = 'complaint';
+    case Complaint = 'complaint'; // complaint message type
     case Inquiry = 'inquiry';
     case AdminNotice = 'admin_notice';
     case Assignment = 'assignment';
