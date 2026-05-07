@@ -83,8 +83,12 @@ new #[Title('Report designer')] class extends Component
 
         <div
             x-data="{
-                html: @entangle('body').live,
+                html: $wire.entangle('body').live,
                 command(name, value = null) {
+                    if (name === 'insertTable') {
+                        value = '<table border=\'1\' cellpadding=\'8\' cellspacing=\'0\' style=\'width:100%;border-collapse:collapse\'><tr><th>العنوان</th><th>القيمة</th></tr><tr><td>مثال</td><td>123</td></tr></table>';
+                        name = 'insertHTML';
+                    }
                     document.execCommand(name, false, value)
                     this.html = this.$refs.editor.innerHTML
                 },
@@ -96,7 +100,7 @@ new #[Title('Report designer')] class extends Component
                 <flux:button type="button" size="sm" x-on:click="command('italic')"><em>I</em></flux:button>
                 <flux:button type="button" size="sm" icon="list-bullet" x-on:click="command('insertUnorderedList')" />
                 <flux:button type="button" size="sm" icon="numbered-list" x-on:click="command('insertOrderedList')" />
-                <flux:button type="button" size="sm" icon="table-cells" x-on:click="command('insertHTML', '<table border=&quot;1&quot; cellpadding=&quot;8&quot; cellspacing=&quot;0&quot; style=&quot;width:100%;border-collapse:collapse&quot;><tr><th>العنوان</th><th>القيمة</th></tr><tr><td>مثال</td><td>123</td></tr></table>')" />
+                <flux:button type="button" size="sm" icon="table-cells" x-on:click="command('insertTable')" />
             </div>
             <div
                 x-ref="editor"
@@ -138,9 +142,9 @@ new #[Title('Report designer')] class extends Component
         <div class="rounded-lg border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
             <flux:heading size="sm">{{ __('Variables') }}</flux:heading>
             <div class="mt-3 grid gap-2 text-sm text-zinc-600 dark:text-zinc-300">
-                <code>{{ '{{ company.name }}' }}</code>
-                <code>{{ '{{ user.name }}' }}</code>
-                <code>{{ '{{ generated_at }}' }}</code>
+                <code>@{{ company.name }}</code>
+                <code>@{{ user.name }}</code>
+                <code>@{{ generated_at }}</code>
             </div>
         </div>
 

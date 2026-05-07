@@ -65,3 +65,18 @@ test('report templates export within the authenticated company', function () {
         ->assertSee('Acme Support')
         ->assertHeader('Content-Type', 'application/vnd.ms-excel; charset=UTF-8');
 });
+
+test('report templates designer renders template variables literally', function () {
+    $this->seed(RolesAndPermissionsSeeder::class);
+
+    $company = Company::factory()->create();
+    $user = User::factory()->create(['company_id' => $company->id, 'user_type' => UserType::CompanyAdmin]);
+    $user->assignRole(UserType::CompanyAdmin->value);
+
+    $this->actingAs($user)
+        ->get(route('reports.templates'))
+        ->assertSuccessful()
+        ->assertSee('{{ company.name }}')
+        ->assertSee('{{ user.name }}')
+        ->assertSee('{{ generated_at }}');
+});
