@@ -5,7 +5,7 @@ namespace App\Enums;
 enum NpsCategory: string
 {
     case Promoter = 'promoter'; // promoter category
-    case Passive = 'passive';
+    case Passive = 'passive'; // passive category
     case Detractor = 'detractor';
 
     public static function fromScore(int $score): self
