@@ -9,7 +9,7 @@ enum CustomFieldType: string
     case Email = 'email'; // email custom field
     case Phone = 'phone'; // phone custom field
     case Number = 'number'; // number custom field
-    case Date = 'date';
+    case Date = 'date'; // date custom field
     case Select = 'select';
     case MultiSelect = 'multi_select';
     case Checkbox = 'checkbox';
