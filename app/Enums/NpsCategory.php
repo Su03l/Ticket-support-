@@ -8,6 +8,7 @@ enum NpsCategory: string
     case Passive = 'passive'; // passive category
     case Detractor = 'detractor'; // detractor category
 
+    // get nps category from score
     public static function fromScore(int $score): self
     {
         return match (true) {
