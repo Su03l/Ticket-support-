@@ -8,4 +8,5 @@ enum SlaStatus: string
     case Met = 'met'; // sla is met
     case Breached = 'breached'; // sla is breached
     case Cancelled = 'cancelled'; // sla is cancelled
+    case Info = 'info'; // informational sla status
 }

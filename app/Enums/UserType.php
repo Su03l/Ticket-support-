@@ -10,4 +10,6 @@ enum UserType: string
     case DepartmentDeputy = 'department_deputy';
     case SupportAgent = 'support_agent';
     case Customer = 'customer';
+    case QualityAssurance = 'quality_assurance';
+    case BillingAdmin = 'billing_admin';
 }

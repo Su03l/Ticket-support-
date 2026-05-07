@@ -21,7 +21,7 @@
             <div class="flex items-center gap-2.5">
                 @if ($icon)
                     <div class="flex size-7 shrink-0 items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-800">
-                        <flux:icon :name="$icon" class="size-4 text-zinc-500 dark:text-zinc-400" />
+                        <flux:icon :name="$icon" variant="outline" class="size-4 text-zinc-500 dark:text-zinc-400" />
                     </div>
                 @endif
                 @if ($heading)
