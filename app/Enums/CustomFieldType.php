@@ -14,5 +14,5 @@ enum CustomFieldType: string
     case MultiSelect = 'multi_select'; // multi select custom field
     case Checkbox = 'checkbox'; // checkbox custom field
     case Radio = 'radio'; // radio custom field
-    case File = 'file';
+    case File = 'file';     // file custom field
 }
