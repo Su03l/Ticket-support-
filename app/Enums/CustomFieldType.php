@@ -12,6 +12,7 @@ enum CustomFieldType: string
     case Date = 'date'; // date custom field
     case Select = 'select'; // select custom field
     case MultiSelect = 'multi_select'; // multi select custom field
-    case Checkbox = 'checkbox';
+    case Checkbox = 'checkbox'; // checkbox custom field
+    case Radio = 'radio'; // radio custom field
     case File = 'file';
 }
