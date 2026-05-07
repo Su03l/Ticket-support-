@@ -17,28 +17,28 @@
     };
 @endphp
 
-<div {{ $attributes->merge(['class' => 'group card card-hover overflow-hidden ' . $accentClasses['bar']]) }}>
-    <div class="p-6">
-        <div class="flex items-start justify-between gap-4">
+<div {{ $attributes->merge(['class' => 'group overflow-hidden rounded-3xl border border-zinc-200/80 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-md dark:border-zinc-800/80 dark:bg-zinc-900 ' . $accentClasses['bar']]) }}>
+    <div class="p-8">
+        <div class="flex items-start justify-between gap-6">
             <div class="min-w-0 flex-1">
-                <flux:text class="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">{{ $label }}</flux:text>
-                <flux:heading size="xl" class="mt-2 font-bold tracking-tight text-zinc-900 dark:text-white">
+                <flux:text class="text-xs font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">{{ $label }}</flux:text>
+                <flux:heading size="xl" class="mt-3 text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-white leading-none">
                     {{ is_numeric($value) ? number_format((float) $value, is_float($value + 0) ? 1 : 0) : $value }}
                 </flux:heading>
                 @if ($description)
-                    <flux:text class="mt-1 truncate text-xs text-zinc-500 dark:text-zinc-400">{{ $description }}</flux:text>
+                    <flux:text class="mt-2 truncate text-sm font-medium text-zinc-500 dark:text-zinc-400">{{ $description }}</flux:text>
                 @endif
             </div>
 
             @if ($icon)
-                <div class="flex size-11 shrink-0 items-center justify-center rounded-xl ring-1 transition-all duration-200 group-hover:scale-105 {{ $accentClasses['icon'] }}">
-                    <flux:icon :name="$icon" class="size-5" />
+                <div class="flex size-14 shrink-0 items-center justify-center rounded-2xl ring-1 transition-all duration-300 group-hover:scale-110 shadow-lg {{ $accentClasses['icon'] }}">
+                    <flux:icon :name="$icon" class="size-6" />
                 </div>
             @endif
         </div>
 
         @if ($footer ?? false)
-            <div class="mt-4 border-t border-zinc-100/80 pt-3 dark:border-zinc-800">
+            <div class="mt-6 border-t border-zinc-100/80 pt-5 dark:border-zinc-800">
                 {{ $footer }}
             </div>
         @endif

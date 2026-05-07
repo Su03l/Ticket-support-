@@ -1,5 +1,5 @@
 <x-layouts::auth :title="__('Two-factor authentication')">
-    <div class="flex flex-col gap-6">
+    <div class="flex flex-col gap-8">
         <div
             class="relative w-full h-auto"
             x-cloak
@@ -43,12 +43,12 @@
                 />
             </div>
 
-            <form method="POST" action="{{ route('two-factor.login.store') }}">
+            <form method="POST" action="{{ route('two-factor.login.store') }}" class="mt-8">
                 @csrf
 
-                <div class="space-y-5 text-center">
+                <div class="space-y-6 text-center">
                     <div x-show="!showRecoveryInput">
-                        <div class="flex items-center justify-center my-5" x-ref="otp">
+                        <div class="flex items-center justify-center my-6" x-ref="otp">
                             <flux:otp
                                 x-model="code"
                                 length="6"
@@ -61,7 +61,7 @@
                     </div>
 
                     <div x-show="showRecoveryInput">
-                        <div class="my-5">
+                        <div class="my-6">
                             <flux:input
                                 type="text"
                                 name="recovery_code"
@@ -69,11 +69,13 @@
                                 x-bind:required="showRecoveryInput"
                                 autocomplete="one-time-code"
                                 x-model="recovery_code"
+                                class="text-center font-mono tracking-widest"
+                                placeholder="00000-00000"
                             />
                         </div>
 
                         @error('recovery_code')
-                            <flux:text color="red">
+                            <flux:text color="red" class="font-semibold text-sm">
                                 {{ $message }}
                             </flux:text>
                         @enderror
@@ -82,15 +84,15 @@
                     <flux:button
                         variant="primary"
                         type="submit"
-                        class="w-full"
+                        class="w-full font-bold py-3 rounded-xl shadow-lg shadow-zinc-200/50 dark:shadow-none"
                     >
                         {{ __('Continue') }}
                     </flux:button>
                 </div>
 
-                <div class="mt-5 space-x-0.5 text-sm leading-5 text-center">
-                    <span class="opacity-50">{{ __('or you can') }}</span>
-                    <div class="inline font-medium underline cursor-pointer opacity-80">
+                <div class="mt-8 space-x-1 text-sm font-medium leading-5 text-center text-zinc-500">
+                    <span class="opacity-70">{{ __('or you can') }}</span>
+                    <div class="inline font-bold underline cursor-pointer hover:text-zinc-900 dark:hover:text-white transition-colors">
                         <span x-show="!showRecoveryInput" @click="toggleInput()">{{ __('login using a recovery code') }}</span>
                         <span x-show="showRecoveryInput" @click="toggleInput()">{{ __('login using an authentication code') }}</span>
                     </div>

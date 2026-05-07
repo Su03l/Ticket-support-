@@ -59,64 +59,63 @@ new #[Title('Customer portal')] class extends Component
     }
 }; ?>
 
-<div class="flex flex-col gap-6">
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-            <flux:heading size="xl">{{ __('Customer portal') }}</flux:heading>
-            <flux:text>{{ __('Track your requests, send updates, and find answers.') }}</flux:text>
-        </div>
+<div class="flex flex-col gap-10">
+    <x-page-header :title="__('Customer portal')" :description="__('Track your requests, send updates, and find answers.')">
+        <x-slot:actions>
+            <flux:button variant="primary" icon="plus" :href="route('portal.tickets.create')" wire:navigate class="font-bold rounded-xl shadow-lg shadow-zinc-200/50 dark:shadow-none">{{ __('New ticket') }}</flux:button>
+            <flux:button variant="ghost" icon="chat-bubble-left-right" :href="route('portal.inquiries.create')" wire:navigate class="font-bold rounded-xl">{{ __('Ask question') }}</flux:button>
+        </x-slot:actions>
+    </x-page-header>
 
-        <div class="flex flex-wrap gap-2">
-            <flux:button variant="primary" icon="plus" :href="route('portal.tickets.create')" wire:navigate>{{ __('New ticket') }}</flux:button>
-            <flux:button variant="ghost" icon="chat-bubble-left-right" :href="route('portal.inquiries.create')" wire:navigate>{{ __('Ask question') }}</flux:button>
-        </div>
+    <div class="grid gap-6 md:grid-cols-3">
+        <x-stat-card :label="__('Tickets')" :value="$ticketCount" icon="ticket" accent="blue" />
+        <x-stat-card :label="__('Complaints')" :value="$complaintCount" icon="exclamation-triangle" accent="amber" />
+        <x-stat-card :label="__('Inquiries')" :value="$inquiryCount" icon="chat-bubble-left-right" accent="emerald" />
     </div>
 
-    <div class="grid gap-4 md:grid-cols-3">
-        <div class="rounded-lg border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
-            <flux:text>{{ __('Tickets') }}</flux:text>
-            <flux:heading size="xl">{{ $ticketCount }}</flux:heading>
-        </div>
-        <div class="rounded-lg border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
-            <flux:text>{{ __('Complaints') }}</flux:text>
-            <flux:heading size="xl">{{ $complaintCount }}</flux:heading>
-        </div>
-        <div class="rounded-lg border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
-            <flux:text>{{ __('Inquiries') }}</flux:text>
-            <flux:heading size="xl">{{ $inquiryCount }}</flux:heading>
-        </div>
-    </div>
-
-    <div class="grid gap-6 xl:grid-cols-2">
-        <div class="rounded-lg border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
-            <flux:heading size="md">{{ __('Recent tickets') }}</flux:heading>
-            <div class="mt-4 flex flex-col gap-3">
+    <div class="grid gap-8 xl:grid-cols-2">
+        <x-section-card :heading="__('Recent tickets')" icon="clock">
+            <div class="flex flex-col gap-4">
                 @forelse ($recentTickets as $ticket)
-                    <a wire:key="portal-ticket-{{ $ticket->id }}" href="{{ route('portal.tickets.show', $ticket) }}" wire:navigate class="rounded-lg border border-zinc-200 p-3 hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-800/60">
-                        <div class="flex items-center justify-between gap-3">
-                            <flux:text class="font-medium">{{ $ticket->ticket_number }}</flux:text>
-                            <flux:badge size="sm">{{ __(str_replace('_', ' ', $ticket->status->value)) }}</flux:badge>
+                    <a wire:key="portal-ticket-{{ $ticket->id }}" href="{{ route('portal.tickets.show', $ticket) }}" wire:navigate class="group rounded-2xl border border-zinc-200/60 p-4 transition-all hover:bg-zinc-50 hover:shadow-sm dark:border-zinc-800/60 dark:hover:bg-zinc-800/40">
+                        <div class="flex items-center justify-between gap-4">
+                            <flux:text class="font-bold tracking-tight text-zinc-900 dark:text-white uppercase text-xs">{{ $ticket->ticket_number }}</flux:text>
+                            <x-status-badge :status="$ticket->status->value" />
                         </div>
-                        <flux:text class="mt-1 truncate text-sm">{{ $ticket->title }}</flux:text>
+                        <flux:text class="mt-2 truncate text-base font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{{ $ticket->title }}</flux:text>
+                        <flux:text class="mt-1 text-xs font-medium text-zinc-400">{{ $ticket->created_at->diffForHumans() }}</flux:text>
                     </a>
                 @empty
-                    <flux:text>{{ __('No tickets yet.') }}</flux:text>
+                    <div class="py-8 text-center">
+                        <flux:text class="font-medium">{{ __('No tickets yet.') }}</flux:text>
+                    </div>
                 @endforelse
             </div>
-        </div>
+            @if ($recentTickets->isNotEmpty())
+                <div class="mt-6 border-t border-zinc-100/80 pt-4 dark:border-zinc-800">
+                    <flux:link :href="route('portal.tickets.index')" wire:navigate class="text-sm font-bold">{{ __('View all tickets') }}</flux:link>
+                </div>
+            @endif
+        </x-section-card>
 
-        <div class="rounded-lg border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
-            <flux:heading size="md">{{ __('Knowledge base') }}</flux:heading>
-            <div class="mt-4 flex flex-col gap-3">
+        <x-section-card :heading="__('Knowledge base')" icon="book-open">
+            <div class="flex flex-col gap-4">
                 @forelse ($articles as $article)
-                    <a wire:key="portal-article-{{ $article->id }}" href="{{ route('portal.knowledge-base.show', $article) }}" wire:navigate class="rounded-lg border border-zinc-200 p-3 hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-800/60">
-                        <flux:text class="font-medium">{{ $article->title }}</flux:text>
-                        <flux:text class="mt-1 truncate text-sm">{{ $article->excerpt }}</flux:text>
+                    <a wire:key="portal-article-{{ $article->id }}" href="{{ route('portal.knowledge-base.show', $article) }}" wire:navigate class="group rounded-2xl border border-zinc-200/60 p-4 transition-all hover:bg-zinc-50 hover:shadow-sm dark:border-zinc-800/60 dark:hover:bg-zinc-800/40">
+                        <flux:text class="text-base font-bold tracking-tight text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{{ $article->title }}</flux:text>
+                        <p class="mt-1.5 line-clamp-2 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400 font-medium">{{ $article->excerpt }}</p>
                     </a>
                 @empty
-                    <flux:text>{{ __('No articles published yet.') }}</flux:text>
+                    <div class="py-8 text-center">
+                        <flux:text class="font-medium">{{ __('No articles published yet.') }}</flux:text>
+                    </div>
                 @endforelse
             </div>
-        </div>
+            @if ($articles->isNotEmpty())
+                <div class="mt-6 border-t border-zinc-100/80 pt-4 dark:border-zinc-800">
+                    <flux:link :href="route('knowledge-base.index')" wire:navigate class="text-sm font-bold">{{ __('Browse knowledge base') }}</flux:link>
+                </div>
+            @endif
+        </x-section-card>
     </div>
 </div>
