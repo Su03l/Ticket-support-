@@ -10,5 +10,5 @@ enum InquiryStatus: string
     case WaitingCustomer = 'waiting_customer'; // waiting customer inquiry status
     case ConvertedToTicket = 'converted_to_ticket'; // converted to ticket inquiry status
     case Closed = 'closed'; // closed inquiry status
-    case Cancelled = 'cancelled';
+    case Cancelled = 'cancelled'; // cancelled inquiry status
 }
