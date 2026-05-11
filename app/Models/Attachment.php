@@ -40,6 +40,7 @@ class Attachment extends Model
         return $this->belongsTo(User::class, 'uploaded_by_id');
     }
 
+    // the relationship between the attachable and the Ticket table
     public function attachable(): MorphTo
     {
         return $this->morphTo();
