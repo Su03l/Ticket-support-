@@ -14,10 +14,10 @@ use Illuminate\Support\Str;
 
 class KnowledgeBaseService
 {
-    public function search(Company $company, ?string $search = null, bool $includeInternal = false): Collection
+    public function search(?Company $company, ?string $search = null, bool $includeInternal = false): Collection
     {
         return KnowledgeBaseArticle::query()
-            ->where('company_id', $company->id)
+            ->when($company !== null, fn ($query) => $query->where('company_id', $company->id))
             ->where('status', ArticleStatus::Published)
             ->when(! $includeInternal, fn ($query) => $query->where('visibility', ArticleVisibility::Public))
             ->when($search, fn ($query) => $query->where(fn ($query) => $query->where('title', 'like', "%{$search}%")->orWhere('content', 'like', "%{$search}%")))

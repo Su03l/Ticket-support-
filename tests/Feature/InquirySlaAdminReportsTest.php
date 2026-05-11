@@ -3,15 +3,11 @@
 use App\Enums\InquiryStatus;
 use App\Enums\SlaAppliesTo;
 use App\Enums\SlaStatus;
-use App\Enums\TicketStatus;
 use App\Enums\UserType;
 use App\Models\Company;
 use App\Models\Department;
-use App\Models\ErrorLog;
-use App\Models\Inquiry;
 use App\Models\MailboxMessage;
 use App\Models\SlaPolicy;
-use App\Models\SlaRecord;
 use App\Models\SupportNotification;
 use App\Models\Ticket;
 use App\Models\User;
@@ -20,6 +16,7 @@ use App\Services\InquiryReplyService;
 use App\Services\InquiryService;
 use App\Services\ReportService;
 use App\Services\SlaTrackingService;
+use App\Services\TicketService;
 use Database\Seeders\RolesAndPermissionsSeeder;
 use Livewire\Livewire;
 
@@ -67,7 +64,7 @@ test('sla records attach to new tickets and breach checker escalates overdue rec
         'resolution_minutes' => 1,
     ]);
 
-    $ticket = app(App\Services\TicketService::class)->createTicket($customer, [
+    $ticket = app(TicketService::class)->createTicket($customer, [
         'department_id' => $department->id,
         'title' => 'Slow response',
         'description' => 'Please help quickly.',
@@ -97,7 +94,7 @@ test('activity error logs and reports pages are accessible to authorized users',
 
     $this->actingAs($admin);
     Livewire::test('pages::activity-logs.index')->assertSee('Test event');
-    Livewire::test('pages::reports.index')->assertSee('total tickets');
+    Livewire::test('pages::reports.index')->assertSee('Total Tickets');
 
     $this->actingAs($superAdmin);
     Livewire::test('pages::error-logs.index')->assertSee('Diagnostic failure');

@@ -6,6 +6,7 @@ use App\Enums\SlaStatus;
 use App\Enums\TicketStatus;
 use App\Models\Complaint;
 use App\Models\Inquiry;
+use App\Models\MailboxMessage;
 use App\Models\SlaRecord;
 use App\Models\Ticket;
 use App\Models\TicketRating;
@@ -20,12 +21,15 @@ class ReportRepository implements ReportRepositoryInterface
         $complaintQuery = $this->scopeCompanyQuery(Complaint::query(), $user, $filters);
         $inquiryQuery = $this->scopeCompanyQuery(Inquiry::query(), $user, $filters);
         $slaQuery = $this->scopeCompanyQuery(SlaRecord::query(), $user, $filters);
+        $mailboxQuery = MailboxMessage::query()->where('recipient_id', $user->id)->whereNull('read_at');
 
         return [
             'total_tickets' => (clone $ticketQuery)->count(),
             'open_tickets' => (clone $ticketQuery)->whereNotIn('status', [TicketStatus::Closed, TicketStatus::Cancelled])->count(),
             'closed_tickets' => (clone $ticketQuery)->where('status', TicketStatus::Closed)->count(),
             'overdue_tickets' => (clone $slaQuery)->where('status', SlaStatus::Breached)->where('slable_type', Ticket::class)->count(),
+            'sla_risk_count' => (clone $slaQuery)->whereNull('resolved_at')->where('resolution_due_at', '>', now())->where('resolution_due_at', '<', now()->addHours(24))->count(),
+            'mailbox_unread_count' => $mailboxQuery->count(),
             'tickets_by_status' => (clone $ticketQuery)->selectRaw('status, count(*) as aggregate')->groupBy('status')->pluck('aggregate', 'status')->all(),
             'tickets_by_department' => (clone $ticketQuery)->join('departments', 'tickets.department_id', '=', 'departments.id')->selectRaw('departments.name, count(*) as aggregate')->groupBy('departments.name')->pluck('aggregate', 'departments.name')->all(),
             'complaints_by_severity' => (clone $complaintQuery)->selectRaw('severity, count(*) as aggregate')->groupBy('severity')->pluck('aggregate', 'severity')->all(),

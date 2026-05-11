@@ -1,11 +1,20 @@
 <?php
 
+use App\Enums\UserType;
 use App\Http\Controllers\AttachmentDownloadController;
 use App\Http\Controllers\ReportTemplateExportController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome')->name('home');
+Route::get('/', function () {
+    if (auth()->check()) {
+        return auth()->user()->user_type === UserType::Customer
+            ? redirect()->route('portal.dashboard')
+            : redirect()->route('dashboard');
+    }
+
+    return view('welcome');
+})->name('home');
 
 Route::post('language/{locale}', function (Request $request, string $locale) {
     abort_unless(in_array($locale, ['ar', 'en'], true), 404);

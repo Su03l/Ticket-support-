@@ -9,52 +9,55 @@ use Livewire\Component;
 use Livewire\Attributes\Title;
 
 new #[Title('Appearance settings')] class extends Component {
-    use AuthorizesRequests;
+ use AuthorizesRequests;
 
-    public string $themePreference = 'system';
+ public string $themePreference = 'system';
 
-    public function mount(): void
-    {
-        $this->themePreference = Auth::user()->theme_preference?->value ?? ThemePreference::System->value;
-    }
+ public function mount(): void
+ {
+  $this->themePreference = Auth::user()->theme_preference?->value ?? ThemePreference::System->value;
+ }
 
-    public function updateAppearance(UserProfileService $profiles): void
-    {
-        $user = Auth::user();
+ public function updateAppearance(UserProfileService $profiles): void
+ {
+  $user = Auth::user();
 
-        $this->authorize('updatePreferences', $user);
+  $this->authorize('updatePreferences', $user);
 
-        $validated = $this->validate([
-            'themePreference' => ['required', 'string', 'in:light,dark,system'],
-        ]);
+  $validated = $this->validate([
+   'themePreference' => ['required', 'string', 'in:light,dark,system'],
+  ]);
 
-        $profiles->updatePreferences($user, [
-            'theme_preference' => $validated['themePreference'],
-            'notification_preferences' => $user->notification_preferences ?? $profiles->defaultNotificationPreferences(),
-        ]);
+  $profiles->updatePreferences($user, [
+   'theme_preference' => $validated['themePreference'],
+   'notification_preferences' => $user->notification_preferences ?? $profiles->defaultNotificationPreferences(),
+  ]);
 
-        Flux::toast(variant: 'success', text: __('Appearance updated.'));
-    }
+  Flux::toast(variant: 'success', text: __('Appearance updated.'));
+ }
 }; ?>
 
-<section class="w-full">
-    @include('partials.settings-heading')
+<x-pages::settings.layout :heading="__('Appearance')":subheading="__('Customize how the application looks and feels on your device')">
+ <flux:card class="space-y-8">
+  <div>
+   <flux:heading size="lg">{{ __('Theme Preference') }}</flux:heading>
+   <flux:subheading>{{ __('Choose your preferred color scheme or let your system decide.') }}</flux:subheading>
+  </div>
 
-    <flux:heading class="sr-only">{{ __('Appearance settings') }}</flux:heading>
+  <form wire:submit="updateAppearance" class="space-y-8">
+   <div class="max-w-lg rounded-2xl border border-zinc-200 bg-zinc-50/50 p-6 dark:border-zinc-800 dark:bg-zinc-900/30">
+    <flux:radio.group x-data variant="segmented"x-model="$flux.appearance" wire:model="themePreference">
+     <flux:radio value="light" icon="sun">{{ __('Light') }}</flux:radio>
+     <flux:radio value="dark" icon="moon">{{ __('Dark') }}</flux:radio>
+     <flux:radio value="system" icon="computer-desktop">{{ __('System') }}</flux:radio>
+    </flux:radio.group>
+   </div>
 
-    <x-pages::settings.layout :heading="__('Appearance')" :subheading="__('Update the appearance settings for your account')">
-        <form wire:submit="updateAppearance" class="my-6 w-full space-y-6">
-            <div class="rounded-lg border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-950">
-                <flux:radio.group x-data variant="segmented" x-model="$flux.appearance" wire:model="themePreference">
-                    <flux:radio value="light" icon="sun">{{ __('Light') }}</flux:radio>
-                    <flux:radio value="dark" icon="moon">{{ __('Dark') }}</flux:radio>
-                    <flux:radio value="system" icon="computer-desktop">{{ __('System') }}</flux:radio>
-                </flux:radio.group>
-            </div>
-
-            <flux:button variant="primary" type="submit">
-                {{ __('Save appearance') }}
-            </flux:button>
-        </form>
-    </x-pages::settings.layout>
-</section>
+   <div class="flex justify-end pt-4 border-t border-zinc-100 dark:border-zinc-800">
+    <flux:button variant="primary" type="submit" icon="swatch">
+     {{ __('Save Appearance') }}
+    </flux:button>
+   </div>
+  </form>
+ </flux:card>
+</x-pages::settings.layout>

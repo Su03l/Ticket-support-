@@ -7,7 +7,6 @@ use App\Enums\CustomFieldType;
 use App\Enums\TicketStatus;
 use App\Enums\UserType;
 use App\Models\Company;
-use App\Models\CannedResponse;
 use App\Models\CustomFieldValue;
 use App\Models\Faq;
 use App\Models\KnowledgeBaseArticle;
@@ -15,7 +14,6 @@ use App\Models\Ticket;
 use App\Models\User;
 use App\Services\CannedResponseService;
 use App\Services\CustomFieldService;
-use App\Services\KnowledgeBaseService;
 use App\Services\ReportService;
 use App\Services\TicketRatingService;
 use Database\Seeders\RolesAndPermissionsSeeder;
@@ -92,4 +90,42 @@ test('knowledge base articles faqs and custom fields can be managed as company d
 
     expect(CustomFieldValue::query()->where('fieldable_id', $ticket->id)->exists())->toBeTrue()
         ->and($field->validation_rules)->toBe(['string']);
+});
+
+test('super admin can browse knowledge base without a company context', function () {
+    $this->seed(RolesAndPermissionsSeeder::class);
+
+    $firstCompany = Company::factory()->create();
+    $secondCompany = Company::factory()->create();
+    $superAdmin = User::factory()->create(['company_id' => null, 'user_type' => UserType::SuperAdmin]);
+    $firstAuthor = User::factory()->create(['company_id' => $firstCompany->id, 'user_type' => UserType::CompanyAdmin]);
+    $secondAuthor = User::factory()->create(['company_id' => $secondCompany->id, 'user_type' => UserType::CompanyAdmin]);
+    $superAdmin->assignRole(UserType::SuperAdmin->value);
+
+    KnowledgeBaseArticle::factory()->create([
+        'company_id' => $firstCompany->id,
+        'author_id' => $firstAuthor->id,
+        'title' => 'Platform onboarding',
+        'slug' => 'platform-onboarding',
+        'content' => 'Learn how to configure the platform.',
+        'status' => ArticleStatus::Published,
+        'visibility' => ArticleVisibility::Public,
+        'published_at' => now(),
+    ]);
+    KnowledgeBaseArticle::factory()->create([
+        'company_id' => $secondCompany->id,
+        'author_id' => $secondAuthor->id,
+        'title' => 'Billing playbook',
+        'slug' => 'billing-playbook',
+        'content' => 'Learn how to handle billing questions.',
+        'status' => ArticleStatus::Published,
+        'visibility' => ArticleVisibility::Public,
+        'published_at' => now(),
+    ]);
+
+    $this->actingAs($superAdmin);
+
+    Livewire::test('pages::knowledge-base.index')
+        ->assertSee('Platform onboarding')
+        ->assertSee('Billing playbook');
 });

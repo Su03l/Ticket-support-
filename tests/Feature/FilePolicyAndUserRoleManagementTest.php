@@ -1,11 +1,9 @@
 <?php
 
-use App\Enums\AttachmentVisibility;
 use App\Enums\UserType;
 use App\Models\Attachment;
 use App\Models\Company;
 use App\Models\Department;
-use App\Models\FileUploadPolicy;
 use App\Models\Ticket;
 use App\Models\TicketComment;
 use App\Models\User;
@@ -112,4 +110,9 @@ test('admins can invite users and manage roles without exposing super admin to c
 
     expect($role->name)->toStartWith('company_'.$company->id)
         ->and($role->hasPermissionTo('tickets.view.department'))->toBeTrue();
+
+    $this->actingAs($admin)
+        ->get(route('users.index'))
+        ->assertSuccessful()
+        ->assertSee('Support Agent');
 });

@@ -80,3 +80,16 @@ test('report templates designer renders template variables literally', function 
         ->assertSee('{{ user.name }}')
         ->assertSee('{{ generated_at }}');
 });
+
+test('employee kpi report page renders for authorized company admins', function () {
+    $this->seed(RolesAndPermissionsSeeder::class);
+
+    $company = Company::factory()->create();
+    $user = User::factory()->create(['company_id' => $company->id, 'user_type' => UserType::CompanyAdmin]);
+    $user->assignRole(UserType::CompanyAdmin->value);
+
+    $this->actingAs($user)
+        ->get(route('reports.kpis'))
+        ->assertSuccessful()
+        ->assertSee(__('Performance Benchmarks'));
+});

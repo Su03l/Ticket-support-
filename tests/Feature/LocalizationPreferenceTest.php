@@ -52,7 +52,7 @@ test('arabic translations cover static translation keys', function () {
     ])->flatMap(fn (string $path) => File::allFiles($path))
         ->filter(fn (SplFileInfo $file) => $file->getExtension() === 'php')
         ->flatMap(function (SplFileInfo $file): array {
-            preg_match_all('/__\(\s*([\'"])((?:\\\\\1|.)*?)\1\s*\)/s', File::get($file->getPathname()), $matches);
+            preg_match_all('/__\(\s*([\'"])((?:\\\\\1|.)*?)\1/s', File::get($file->getPathname()), $matches);
 
             return array_map(
                 fn (string $key): string => str_replace("\\'", "'", $key),
@@ -97,4 +97,15 @@ test('arabic translations cover enum values and permission labels used in the ui
     $missing = $keys->reject(fn (string $key) => array_key_exists($key, $translations))->values();
 
     expect($missing->all())->toBe([]);
+});
+
+test('arabic translations do not contain corrupted placeholder text', function () {
+    $translations = json_decode(File::get(lang_path('ar.json')), true, flags: JSON_THROW_ON_ERROR);
+
+    $corrupted = collect($translations)
+        ->filter(fn (string $translation): bool => str_contains($translation, '????'))
+        ->keys()
+        ->values();
+
+    expect($corrupted->all())->toBe([]);
 });
