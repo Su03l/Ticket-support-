@@ -49,6 +49,7 @@ class Company extends Model
         return $this->hasMany(Department::class);
     }
 
+    // the relationship between the company and the Ticket table
     public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class);
