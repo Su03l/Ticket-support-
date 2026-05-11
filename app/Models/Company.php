@@ -79,6 +79,7 @@ class Company extends Model
         return $this->hasOne(CompanySetting::class);
     }
 
+    // the relationship between the company and the Faq table
     public function activeSubscription(): HasOne
     {
         return $this->hasOne(Subscription::class)->where('status', 'active')->latestOfMany();
