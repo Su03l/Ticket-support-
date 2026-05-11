@@ -43,6 +43,7 @@ class Company extends Model
         return $this->hasMany(User::class);
     }
 
+    // the relationship between the company and the Department table    
     public function departments(): HasMany
     {
         return $this->hasMany(Department::class);
