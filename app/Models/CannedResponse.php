@@ -19,15 +19,19 @@ class CannedResponse extends Model
     {
         return ['is_active' => 'boolean'];
     }
-    // the relationships between the tables 
+    // the relationships between the tables with the comment  
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
+
+    // the relationship between the department and the Department table
     public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class);
     }
+
+    // the relationship between the createdBy and the User table
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by_id');
