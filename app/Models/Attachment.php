@@ -28,6 +28,7 @@ class Attachment extends Model
         ];
     }
 
+    // the relationships between the tables with the comment  
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
