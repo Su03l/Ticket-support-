@@ -34,6 +34,7 @@ class Attachment extends Model
         return $this->belongsTo(Company::class);
     }
 
+    // the relationship between the uploadedBy and the User table
     public function uploadedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'uploaded_by_id');
