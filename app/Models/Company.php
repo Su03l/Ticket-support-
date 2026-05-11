@@ -37,6 +37,7 @@ class Company extends Model
         return $this->belongsTo(Plan::class);
     }
 
+    // the relationship between the company and the User table
     public function users(): HasMany
     {
         return $this->hasMany(User::class);
