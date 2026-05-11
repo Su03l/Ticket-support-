@@ -61,6 +61,7 @@ class Company extends Model
         return $this->hasMany(Complaint::class);
     }
 
+    // the relationship between the company and the CannedResponse table
     public function inquiries(): HasMany
     {
         return $this->hasMany(Inquiry::class);
