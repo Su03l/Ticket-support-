@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+// the fillable array is used to specify the columns that can be mass assigned
 #[Fillable(['name', 'slug', 'email', 'phone', 'website', 'status', 'plan_id', 'trial_ends_at', 'suspended_at'])]
 class Company extends Model
 {
