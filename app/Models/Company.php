@@ -73,6 +73,7 @@ class Company extends Model
         return $this->hasMany(Subscription::class);
     }
 
+    // the relationship between the company and the Faq table
     public function setting(): HasOne
     {
         return $this->hasOne(CompanySetting::class);
