@@ -67,6 +67,7 @@ class Company extends Model
         return $this->hasMany(Inquiry::class);
     }
 
+    // the relationship between the company and the Faq table
     public function subscriptions(): HasMany
     {
         return $this->hasMany(Subscription::class);
