@@ -31,6 +31,7 @@ class Company extends Model
         ];
     }
 
+    // the relationship between the company and the Plan table
     public function plan(): BelongsTo
     {
         return $this->belongsTo(Plan::class);
